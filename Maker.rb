@@ -15,6 +15,8 @@ class Maker
                   ["0", "0", "0",  "0", "0", "0",  "0", "0", "0"],
                   ["0", "0", "0",  "0", "0", "0",  "0", "0", "0"],
                   ["0", "0", "0",  "0", "0", "0",  "0", "0", "0"]]
+        @file 
+    end
 
     def make
         visualize
@@ -44,6 +46,8 @@ class Maker
                 break
             end
         end
+        @file = nameFile
+        save
     end
 
     def modify()
@@ -56,8 +60,9 @@ class Maker
         visualize(line_id, num_id)
         print 'New number? '
         inpt = gets.chomp.to_i
-        @blank[line_id-1][num_id-1] = inpt
+        @blank[line_id-1][num_id-1] = inpt.to_s
         visualize
+        save
     end
 
     def visualize(line_id = nil, num_id = nil)
@@ -88,51 +93,66 @@ class Maker
         end
     end
 
+    def nameFile
+        file_count = Dir.entries("res"). count - 2
+        file_number = file_count + 1
+        name = 'res/Sudoku%s.txt' % file_number
+        @file = name
+    end
+
     def save
-        File.write('Sudoku.txt', @blank)
+        File.write(@file, @blank)
         puts "File saved!"
     end
 
-    def get
-        f_output =File.read('Sudoku.txt')
+    def get(num)
+        name ='res/Sudoku%s.txt' % num
+        f_output =File.read(name, @file)
         f = eval(f_output)
         @blank = f
+        @file = name
     end
 
     def returnSud
         sud = @blank.clone
         for line in sud
             line.each_index{|index| line[index] = line[index].to_i}
+        end
         return sud
+    end
+
+    def getSud(num)
+        get(num)
+        return returnSud
     end
 
     #TERMINAL
     def terminal
         running = true
         while running
-            puts "Make: 1, Get: 2, Modify: 3, View: 4, Save: 5, Stop: 6"
+            puts "Make: 1, Get: 2, Modify: 3, View: 4, Stop: 5"
             inpt = gets.chomp
 
             if inpt == "1"
                 make
             elsif inpt == "2"
-                get
+                puts 'Which number?'
+                num = gets.chomp
+                get(num)
             elsif inpt == "3"
                 modify
             elsif inpt == "4"
                 visualize
             elsif inpt == "5"
-                save
-            elsif inpt == "6"
                 running = false
             else
-                puts "NOT RECOGNI"
+                puts "NOT RECOGNIZED"
             end
         end
     end
 end
 
-if __FILE__ = $0
+if __FILE__ == $0
     mk = Maker.new
     mk.terminal
 end

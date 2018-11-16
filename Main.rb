@@ -1,4 +1,5 @@
 require './Sudoku'
+require './Maker'
 
 if __FILE__ == $0
     curSud =    [[0, 7, 0,  0, 0, 4,  8, 0, 0],
@@ -37,5 +38,7 @@ if __FILE__ == $0
                  [0, 0, 0,  0, 0, 0,  0, 0, 0],
                  [0, 0, 0,  0, 0, 0,  0, 0, 0]]
 
-    sud = Sudoku.new(nwSud2)
+    maker = Maker.new
+    sud = maker.getSud(2)
+    sud = Sudoku.new(sud)
 end
