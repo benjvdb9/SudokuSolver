@@ -3,6 +3,8 @@ require './Grid'
 require './Vline'
 require './Hline'
 require './Square'
+require 'byebug'
+
 
 class Sudoku
     def initialize(lines)
@@ -23,15 +25,15 @@ class Sudoku
 
     def solve
         for grid in @gridlist
-            grid.solve
+            grid.solve(debug: false)
         end
 
         for vline in @Vlines
-            vline.solve
+            vline.solve(debug: false)
         end
 
         for hline in @Hlines
-            hline.solve
+            hline.solve(debug: true)
         end
     end
 
@@ -84,7 +86,7 @@ class Sudoku
                 if x == "3"
                     i = 1
                     found = true
-                    grid = @gridlist[0]
+                    grid = @gridlist[1]
                     for square in grid.squares
                         print("#{i}: ", square.impossibleVals, "\n")
                         i+=1
@@ -116,8 +118,10 @@ class Sudoku
                 end
                 x = gets.chomp
             end
-            curSud = self.createList
-            sud = Sudoku.new(curSud)
+            self.resetColors
+            self.solve
+            self.visualize
+            self.newStep
         end
     end
 
@@ -129,6 +133,14 @@ class Sudoku
             curSud.push(squares)
         end
         return curSud
+    end
+
+    def resetColors
+        for line in @squares
+            for square in line
+                square.resetColor
+            end
+        end
     end
 
     def getGrids(lines)

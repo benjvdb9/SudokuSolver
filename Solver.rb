@@ -6,11 +6,11 @@ class Solver
         @squares = nums
     end
 
-    def solve
+    def solve(debug: false)
         ind = 1
         for square in @squares
-            if ind == 99 and self.instance_of? (Vline)
-                byebug
+            if ind == 9 and debug
+                #byebug
             end
 
             other_squares = @squares.clone

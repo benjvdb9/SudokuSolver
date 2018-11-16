@@ -37,6 +37,8 @@ class Square
         @impossibleVals = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         @impossibleVals.delete(val)
         @status = "solved"
+        @known = true
+        @val = val
     end
 
     def getStatus
@@ -82,6 +84,12 @@ class Square
         end
         @@index += 1
         return code
+    end
+
+    def resetColor
+        if @status == "solved"
+            @status = "given"
+        end
     end
 
     def resetIndex

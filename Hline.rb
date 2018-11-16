@@ -8,8 +8,8 @@ class Hline < Solver
     def pprint
         square = @squares.clone
         square.each_index{|x| square[x] = square[x].val}
-        puts("「  ")
+        puts("==")
         puts(square)
-        puts("  」")
+        puts("==")
     end
 end

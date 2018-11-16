@@ -30,4 +30,12 @@ class Grid < Solver
             return false
         end
     end
+
+    def pprint
+        square = @squares.clone
+        square.each_index{|x| square[x] = square[x].val}
+        print(square[0, 3], "\n")
+        print(square[3, 3], "\n")
+        print(square[6, 3], "\n")
+    end
 end
